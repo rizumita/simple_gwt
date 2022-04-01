@@ -8,9 +8,7 @@ The simple_gwt package is to write tests in the 'Given When Then' style.
 
 ## Getting started
 
-```bash
-flutter pub add -d simple_gwt
-```
+Add the simple_gwh package to dev_dependencies in pubspec.yaml.
 
 ## Usage
 
