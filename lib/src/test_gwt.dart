@@ -5,16 +5,18 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:simple_gwt/src/gwt.dart';
 import 'package:simple_gwt/src/keys.dart';
+import 'package:simple_gwt/src/phase.dart';
 import 'package:test/test.dart';
 
 dynamic Function() gwt(dynamic Function() body) {
   var givens = <GWT>[];
   var whens = <GWT>[];
   var thens = <GWT>[];
-  final zoneValues = {
+  final Map<Object?, Object?> zoneValues = {
     givenKey: givens,
     whenKey: whens,
     thenKey: thens,
+    phaseKey: Phase(),
   };
 
   return () async {
@@ -26,15 +28,18 @@ dynamic Function() gwt(dynamic Function() body) {
 
     try {
       await Future.forEach<MapEntry<int, GWT>>(givens.asMap().entries, (entry) async {
-        descriptions.add(entry.key == 0 ? 'Given ${entry.value.description}' : '      ' + entry.value.description);
+        final description = entry.value.description.isEmpty ? '#${entry.key + 1}' : entry.value.description;
+        descriptions.add(entry.key == 0 ? 'Given $description' : '      ' + description);
         await entry.value.body();
       });
       await Future.forEach<MapEntry<int, GWT>>(whens.asMap().entries, (entry) async {
-        descriptions.add(entry.key == 0 ? 'When ${entry.value.description}' : '     ' + entry.value.description);
+        final description = entry.value.description.isEmpty ? '#${entry.key + 1}' : entry.value.description;
+        descriptions.add(entry.key == 0 ? 'When $description' : '     ' + description);
         await entry.value.body();
       });
       await Future.forEach<MapEntry<int, GWT>>(thens.asMap().entries, (entry) async {
-        descriptions.add(entry.key == 0 ? 'Then ${entry.value.description}' : '     ' + entry.value.description);
+        final description = entry.value.description.isEmpty ? '#${entry.key + 1}' : entry.value.description;
+        descriptions.add(entry.key == 0 ? 'Then $description' : '     ' + description);
         await entry.value.body();
       });
     } catch (_) {
