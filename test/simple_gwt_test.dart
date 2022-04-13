@@ -9,20 +9,20 @@ void main() {
   nullifyB() => b = null;
 
   testGWT('Test1', () {
-    given('A is null', nullifyA);
-    given('B is null', nullifyB);
-    when('set a', () => a = 'a');
-    when('set b', () => b = 'b');
-    then('a is a', () => expect(a, 'a'));
-    then('b is b', () => expect(b, 'b'));
+    given(nullifyA, 'A is null');
+    and(nullifyB, 'B is null');
+    when(() => a = 'a', 'set a');
+    and(() => b = 'b', 'set b');
+    then(() => expect(a, 'a'), 'a is a');
+    and(() => expect(b, 'b'), 'b is b');
   });
 
   testGWT('Test2', () {
-    given('A is null', nullifyA);
-    given('B is null', nullifyB);
-    when('set b to a', () => a = 'b');
-    when('set a to b', () => b = 'a');
-    then('a is b', () => expect(a, 'b'));
-    then('b is a', () => expect(b, 'a'));
+    given(nullifyA);
+    and(nullifyB);
+    when(() => a = 'b');
+    and(() => b = 'a');
+    then(() => expect(a, 'b'));
+    and(() => expect(b, 'a'));
   });
 }

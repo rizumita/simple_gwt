@@ -1,0 +1,3 @@
+class Phase {
+  String? key;
+}
