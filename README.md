@@ -13,9 +13,22 @@ Add the simple_gwh package to dev_dependencies in pubspec.yaml.
 ## Usage
 
 ```dart
-testGWT('Test1', () {
-  given('A is null', () => a = null);
-  when('set a', () => a = 'a');
-  then('a is a', () => expect(a, 'a'));
-});
+void main() {
+  String? a;
+  String? b;
+
+  aIsNull() => a = null;
+  bIsNull() => b = null;
+
+  test('Test1', gwt(() {
+    given(aIsNull);
+    and(bIsNull);
+
+    when(() => a = 'a', 'set a');
+    and(() => b = 'b', 'set b');
+
+    then(() => expect(a, 'a'), 'a is a');
+    and(() => expect(b, 'b'), 'b is b');
+  }));
+}
 ```
