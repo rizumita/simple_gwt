@@ -17,12 +17,23 @@ void main() {
     and('b is b', () => expect(b, 'b'));
   }));
 
-  test('Test2', gwt(() {
+  test('Test2', gwt(() async {
     given('', aIsNull);
     and('', bIsNull);
-    when('set b to a', () => a = 'b');
-    and('set a to b', () => b = 'a');
-    then('a is b', () => expect(a, 'b'));
-    and('b is a', () => expect(b, 'a'));
+
+    await when('set a with delay', () async {
+      await Future.delayed(const Duration(milliseconds: 100));
+      a = 'delayed_a';
+    });
+    then('a is delayed_a', () => expect(a, 'delayed_a'));
+
+    await when('set b with delay', () async {
+      await Future.delayed(const Duration(milliseconds: 100));
+      b = 'delayed_b';
+    });
+    then('b is delayed_b', () => expect(b, 'delayed_b'));
+
+    expect(a, 'delayed_a');
+    expect(b, 'delayed_b');
   }));
 }

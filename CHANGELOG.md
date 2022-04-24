@@ -1,3 +1,8 @@
+## 0.0.6
+
+* Support async/await
+* Support 'when' after 'then'
+
 ## 0.0.5
 
 * Require description

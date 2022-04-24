@@ -2,53 +2,55 @@
 
 import 'dart:async';
 
-import 'package:simple_gwt/src/gwt.dart';
 import 'package:simple_gwt/src/keys.dart';
 import 'package:simple_gwt/src/phase.dart';
 
-void given(String description, dynamic Function() body) {
-  final givens = Zone.current[givenKey] as List<GWT>?;
+FutureOr<void> given(String description, dynamic Function() body) async {
+  final givens = Zone.current[givenKey] as List<String>?;
 
   if (givens == null) {
-    throw Exception('Use testGWT method');
+    throw Exception('Use gwt method');
   } else {
     (Zone.current[phaseKey] as Phase).key = givenKey;
-    givens.add(GWT(description, body));
+    givens.add(description);
+    await body();
   }
 }
 
-void when(String description, dynamic Function() body) {
-  final whens = Zone.current[whenKey] as List<GWT>?;
+FutureOr<void> when(String description, dynamic Function() body) async {
+  final whens = Zone.current[whenKey] as List<String>?;
 
   if (whens == null) {
-    throw Exception('Use testGWT method');
+    throw Exception('Use gwt method');
   } else {
     (Zone.current[phaseKey] as Phase).key = whenKey;
-    whens.add(GWT(description, body));
+    whens.add(description);
+    await body();
   }
 }
 
-void then(String description, dynamic Function() body) {
-  final thens = Zone.current[thenKey] as List<GWT>?;
+FutureOr<void> then(String description, dynamic Function() body) async {
+  final thens = Zone.current[thenKey] as List<String>?;
 
   if (thens == null) {
-    throw Exception('Use testGWT method');
+    throw Exception('Use gwt method');
   } else {
     (Zone.current[phaseKey] as Phase).key = thenKey;
-    thens.add(GWT(description, body));
+    thens.add(description);
+    await body();
   }
 }
 
-void and(String description, dynamic Function() body) {
+FutureOr<void> and(String description, dynamic Function() body) async {
   switch ((Zone.current[phaseKey] as Phase).key) {
     case givenKey:
-      given(description, body);
+      await given(description, body);
       break;
     case whenKey:
-      when(description, body);
+      await when(description, body);
       break;
     case thenKey:
-      then(description, body);
+      await then(description, body);
       break;
   }
 }
