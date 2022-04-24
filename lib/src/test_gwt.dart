@@ -2,11 +2,9 @@
 
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:simple_gwt/src/gwt.dart';
 import 'package:simple_gwt/src/keys.dart';
 import 'package:simple_gwt/src/phase.dart';
-import 'package:test/test.dart';
 
 dynamic Function() gwt(dynamic Function() body) {
   var givens = <GWT>[];
@@ -51,25 +49,45 @@ dynamic Function() gwt(dynamic Function() body) {
   };
 }
 
-@isTest
-void testGWT(
-  Object description,
-  dynamic Function() body, {
-  String? testOn,
-  Timeout? timeout,
-  dynamic skip,
-  dynamic tags,
-  Map<String, dynamic>? onPlatform,
-  int? retry,
-}) {
-  test(
-    description,
-    gwt(body),
-    testOn: testOn,
-    timeout: timeout,
-    skip: skip,
-    onPlatform: onPlatform,
-    tags: tags,
-    retry: retry,
-  );
+Future Function(T) gwt_<T>(Future Function(T) body) {
+  var givens = <GWT>[];
+  var whens = <GWT>[];
+  var thens = <GWT>[];
+  final Map<Object?, Object?> zoneValues = {
+    givenKey: givens,
+    whenKey: whens,
+    thenKey: thens,
+    phaseKey: Phase(),
+  };
+
+  return (value) async {
+    await runZoned(() async {
+      await body(value);
+    }, zoneValues: zoneValues);
+
+    var descriptions = <String>[];
+
+    try {
+      await Future.forEach<MapEntry<int, GWT>>(givens.asMap().entries, (entry) async {
+        final description = entry.value.description.isEmpty ? '#${entry.key + 1}' : entry.value.description;
+        descriptions.add(entry.key == 0 ? 'Given $description' : '      ' + description);
+        await entry.value.body();
+      });
+      await Future.forEach<MapEntry<int, GWT>>(whens.asMap().entries, (entry) async {
+        final description = entry.value.description.isEmpty ? '#${entry.key + 1}' : entry.value.description;
+        descriptions.add(entry.key == 0 ? 'When $description' : '     ' + description);
+        await entry.value.body();
+      });
+      await Future.forEach<MapEntry<int, GWT>>(thens.asMap().entries, (entry) async {
+        final description = entry.value.description.isEmpty ? '#${entry.key + 1}' : entry.value.description;
+        descriptions.add(entry.key == 0 ? 'Then $description' : '     ' + description);
+        await entry.value.body();
+      });
+    } catch (_) {
+      for (var description in descriptions) {
+        print(description);
+      }
+      rethrow;
+    }
+  };
 }
