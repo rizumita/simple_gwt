@@ -1,3 +1,7 @@
+## 0.0.2
+
+* And method
+
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Given/When/Then methods
