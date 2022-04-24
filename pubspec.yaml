@@ -10,7 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  test:
+  meta: ^1.7.0
+  test: ^1.19.5
 
 dev_dependencies:
   flutter_test:
