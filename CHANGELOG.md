@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Support widget test
+
 ## 0.0.3
 
 * Specify test library version
