@@ -7,10 +7,12 @@ void main() {
     "WidgetTest",
     gwt_((tester) async {
       var result = '';
-      given(() => tester
-          .pumpWidget(MaterialApp(home: TextButton(onPressed: () => result = 'test', child: const Text('test')))));
-      when(() => tester.tap(find.byType(TextButton)));
-      then(() => expect(result, 'test'));
+      given(
+          'Show TextButton',
+          () => tester
+              .pumpWidget(MaterialApp(home: TextButton(onPressed: () => result = 'test', child: const Text('test')))));
+      when('Tap the button', () => tester.tap(find.byType(TextButton)));
+      then('result is \'test\'', () => expect(result, 'test'));
     }),
   );
 }

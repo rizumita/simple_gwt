@@ -21,14 +21,12 @@ void main() {
   bIsNull() => b = null;
 
   test('Test1', gwt(() {
-    given(aIsNull);
-    and(bIsNull);
-
-    when(() => a = 'a', 'set a');
-    and(() => b = 'b', 'set b');
-
-    then(() => expect(a, 'a'), 'a is a');
-    and(() => expect(b, 'b'), 'b is b');
+    given('', aIsNull);
+    and('', bIsNull);
+    when('set a', () => a = 'a');
+    and('set b', () => b = 'b');
+    then('a is a', () => expect(a, 'a'));
+    and('b is b', () => expect(b, 'b'));
   }));
 }
 ```

@@ -1,6 +1,6 @@
 name: simple_gwt
 description: Given When Then style test package.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/rizumita/simple_gwt
 
 environment:

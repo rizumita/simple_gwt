@@ -6,7 +6,7 @@ import 'package:simple_gwt/src/gwt.dart';
 import 'package:simple_gwt/src/keys.dart';
 import 'package:simple_gwt/src/phase.dart';
 
-void given(dynamic Function() body, [String description = '']) {
+void given(String description, dynamic Function() body) {
   final givens = Zone.current[givenKey] as List<GWT>?;
 
   if (givens == null) {
@@ -17,7 +17,7 @@ void given(dynamic Function() body, [String description = '']) {
   }
 }
 
-void when(dynamic Function() body, [String description = '']) {
+void when(String description, dynamic Function() body) {
   final whens = Zone.current[whenKey] as List<GWT>?;
 
   if (whens == null) {
@@ -28,7 +28,7 @@ void when(dynamic Function() body, [String description = '']) {
   }
 }
 
-void then(dynamic Function() body, [String description = '']) {
+void then(String description, dynamic Function() body) {
   final thens = Zone.current[thenKey] as List<GWT>?;
 
   if (thens == null) {
@@ -39,16 +39,16 @@ void then(dynamic Function() body, [String description = '']) {
   }
 }
 
-void and(dynamic Function() body, [String description = '']) {
+void and(String description, dynamic Function() body) {
   switch ((Zone.current[phaseKey] as Phase).key) {
     case givenKey:
-      given(body, description);
+      given(description, body);
       break;
     case whenKey:
-      when(body, description);
+      when(description, body);
       break;
     case thenKey:
-      then(body, description);
+      then(description, body);
       break;
   }
 }
