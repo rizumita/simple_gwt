@@ -1,5 +1,5 @@
 name: simple_gwt
-description: Given When Then style test package.
+description: SimpleGWT package provides 'Given When Then' style test functions.
 version: 0.0.6
 homepage: https://github.com/rizumita/simple_gwt
 
