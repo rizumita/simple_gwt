@@ -25,16 +25,22 @@ dynamic Function() gwt(dynamic Function() body) {
 
     try {
       for (final entry in givens.asMap().entries) {
-        final description = entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
-        descriptions.add(entry.key == 0 ? 'Given $description' : '      ' + description);
+        final description =
+            entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
+        descriptions.add(
+            entry.key == 0 ? 'Given $description' : '      ' + description);
       }
       for (var entry in whens.asMap().entries) {
-        final description = entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
-        descriptions.add(entry.key == 0 ? 'When $description' : '     ' + description);
+        final description =
+            entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
+        descriptions
+            .add(entry.key == 0 ? 'When $description' : '     ' + description);
       }
       for (var entry in thens.asMap().entries) {
-        final description = entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
-        descriptions.add(entry.key == 0 ? 'Then $description' : '     ' + description);
+        final description =
+            entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
+        descriptions
+            .add(entry.key == 0 ? 'Then $description' : '     ' + description);
       }
     } catch (_) {
       for (var description in descriptions) {
@@ -65,16 +71,22 @@ Future Function(T) gwt_<T>(Future Function(T) body) {
 
     try {
       for (final entry in givens.asMap().entries) {
-        final description = entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
-        descriptions.add(entry.key == 0 ? 'Given $description' : '      ' + description);
+        final description =
+            entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
+        descriptions.add(
+            entry.key == 0 ? 'Given $description' : '      ' + description);
       }
       for (var entry in whens.asMap().entries) {
-        final description = entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
-        descriptions.add(entry.key == 0 ? 'When $description' : '     ' + description);
+        final description =
+            entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
+        descriptions
+            .add(entry.key == 0 ? 'When $description' : '     ' + description);
       }
       for (var entry in thens.asMap().entries) {
-        final description = entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
-        descriptions.add(entry.key == 0 ? 'Then $description' : '     ' + description);
+        final description =
+            entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
+        descriptions
+            .add(entry.key == 0 ? 'Then $description' : '     ' + description);
       }
     } catch (_) {
       for (var description in descriptions) {
