@@ -1,3 +1,9 @@
+## 0.0.7
+
+* Handle exceptions in and method
+* Documentation
+* Examples
+
 ## 0.0.6
 
 * Support async/await
