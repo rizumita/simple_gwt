@@ -42,7 +42,9 @@ FutureOr<void> then(String description, dynamic Function() body) async {
 }
 
 FutureOr<void> and(String description, dynamic Function() body) async {
-  switch ((Zone.current[phaseKey] as Phase).key) {
+  final phase = Zone.current[phaseKey] as Phase;
+
+  switch (phase.key) {
     case givenKey:
       await given(description, body);
       break;
@@ -52,5 +54,7 @@ FutureOr<void> and(String description, dynamic Function() body) async {
     case thenKey:
       await then(description, body);
       break;
+    case null:
+      throw Exception('Use and method after given, when or then');
   }
 }
