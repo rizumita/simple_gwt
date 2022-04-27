@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:simple_gwt/src/keys.dart';
-import 'package:simple_gwt/src/test_gwt.dart';
+import 'package:simple_gwt/src/gwt.dart';
 
 void main() {
   test('gwt stores descriptions', () {

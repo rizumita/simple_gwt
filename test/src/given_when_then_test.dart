@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:simple_gwt/src/given_when_then.dart';
 import 'package:simple_gwt/src/keys.dart';
-import 'package:simple_gwt/src/test_gwt.dart';
+import 'package:simple_gwt/src/gwt.dart';
 
 void main() {
   group('given', () {
