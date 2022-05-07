@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:simple_gwt/src/given_when_then.dart';
-import 'package:simple_gwt/src/keys.dart';
 import 'package:simple_gwt/src/gwt.dart';
+import 'package:simple_gwt/src/keys.dart';
 
 void main() {
   group('given', () {
@@ -69,6 +69,15 @@ void main() {
       expect(a, 2);
       List<String> whens = Zone.current[whenKey];
       expect(whens, ['First', 'Second']);
+    }));
+  });
+
+  group('whenThrows', () {
+    test('Returns function throws an exception and store description', gwt(() {
+      final wt = whenThrows('First', () => throw Exception('First'));
+      expect(wt, throwsException);
+      List<String> whens = Zone.current[whenKey];
+      expect(whens, ['First']);
     }));
   });
 
@@ -165,5 +174,20 @@ void main() {
       List<String> thens = Zone.current[thenKey];
       expect(thens, ['First then', 'Third and']);
     }));
+  });
+
+  group('andThrows', () {
+    test(
+      'Returns function throws exception and stores description after when',
+      gwt(() {
+        var a = 0;
+
+        when('First', () => a = 1);
+        final at = andThrows('Second', () => throw Exception('Second'));
+
+        expect(a, 1);
+        expect(at, throwsException);
+      }),
+    );
   });
 }
