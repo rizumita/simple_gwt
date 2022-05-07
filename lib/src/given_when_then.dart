@@ -3,14 +3,14 @@
 import 'dart:async';
 
 import 'package:simple_gwt/src/keys.dart';
-import 'package:simple_gwt/src/phase.dart';
+import 'package:simple_gwt/src/state.dart';
 
 FutureOr<void> given(String description, dynamic Function() body) async {
   final givens = Zone.current[givenKey] as List<String>?;
 
   if (givens == null) throw Exception('Use gwt method');
 
-  (Zone.current[phaseKey] as Phase).key = givenKey;
+  (Zone.current[stateKey] as State).key = givenKey;
   givens.add(description);
   await body();
 }
@@ -20,7 +20,7 @@ FutureOr<void> when(String description, dynamic Function() body) async {
 
   if (whens == null) throw Exception('Use gwt method');
 
-  (Zone.current[phaseKey] as Phase).key = whenKey;
+  (Zone.current[stateKey] as State).key = whenKey;
   whens.add(description);
   await body();
 }
@@ -31,9 +31,15 @@ FutureOr<void> Function() whenThrows(
 
   if (whens == null) throw Exception('Use gwt method');
 
-  (Zone.current[phaseKey] as Phase).key = whenKey;
+  final state = Zone.current[stateKey] as State;
+  state.key = whenKey;
+  state.whenThrowsCount += 1;
   whens.add(description);
-  return () async => await body();
+
+  return () async {
+    state.whenThrowsCount -= 1;
+    return await body();
+  };
 }
 
 FutureOr<void> then(String description, dynamic Function() body) async {
@@ -41,19 +47,19 @@ FutureOr<void> then(String description, dynamic Function() body) async {
 
   if (thens == null) throw Exception('Use gwt method');
 
-  (Zone.current[phaseKey] as Phase).key = thenKey;
+  (Zone.current[stateKey] as State).key = thenKey;
   thens.add(description);
   await body();
 }
 
 FutureOr<void> and(String description, dynamic Function() body) async {
-  final phase = Zone.current[phaseKey] as Phase?;
+  final state = Zone.current[stateKey] as State?;
 
-  if (phase == null) {
+  if (state == null) {
     throw Exception('Use and method after given, when, whenThrows or then');
   }
 
-  switch (phase.key) {
+  switch (state.key) {
     case givenKey:
       await given(description, body);
       break;
@@ -72,13 +78,13 @@ FutureOr<void> Function() andThrows(
   String description,
   dynamic Function() body,
 ) {
-  final phase = Zone.current[phaseKey] as Phase?;
+  final state = Zone.current[stateKey] as State?;
 
-  if (phase == null) {
+  if (state == null) {
     throw Exception('Use andThrows method after when or whenThrows');
   }
 
-  switch (phase.key) {
+  switch (state.key) {
     case whenKey:
       return whenThrows(description, body);
     default:

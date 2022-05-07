@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:simple_gwt/src/keys.dart';
-import 'package:simple_gwt/src/phase.dart';
+import 'package:simple_gwt/src/state.dart';
 
 /// Prepares unit testing environment for [given]/[when]/[then] methods
 ///
@@ -21,16 +21,24 @@ dynamic Function() gwt(dynamic Function() body) {
   var givens = <String>[];
   var whens = <String>[];
   var thens = <String>[];
+  final state = State();
   final Map<Object?, Object?> zoneValues = {
     givenKey: givens,
     whenKey: whens,
     thenKey: thens,
-    phaseKey: Phase(),
+    stateKey: state,
   };
 
   return () async {
     await runZoned(() async {
       await body();
+
+      if (state.whenThrowsCount == 1) {
+        throw Exception('Unused whenThrows object remains.');
+      } else if (state.whenThrowsCount >= 2) {
+        throw Exception(
+            'Unused ${state.whenThrowsCount} whenThrows objects remains.');
+      }
     }, zoneValues: zoneValues);
 
     var descriptions = <String>[];
@@ -83,7 +91,7 @@ Future Function(T) gwt_<T>(Future Function(T) body) {
     givenKey: givens,
     whenKey: whens,
     thenKey: thens,
-    phaseKey: Phase(),
+    stateKey: State(),
   };
 
   return (value) async {

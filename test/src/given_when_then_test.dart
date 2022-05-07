@@ -79,6 +79,12 @@ void main() {
       List<String> whens = Zone.current[whenKey];
       expect(whens, ['First']);
     }));
+
+    test('Throws unused whenThrows object remains exception', () {
+      expect(gwt(() {
+        whenThrows('First', () => throw Exception('First'));
+      }), throwsException);
+    });
   });
 
   group('then', () {
