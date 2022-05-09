@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:simple_gwt/src/keys.dart';
 import 'package:simple_gwt/src/state.dart';
 
-Future<T> given<T>(String description, FutureOr<T> Function() body) async {
+FutureOr<T> given<T>(String description, FutureOr<T> Function() body) async {
   final givens = Zone.current[givenKey] as List<String>?;
 
   if (givens == null) throw Exception('Use gwt method');
@@ -15,7 +15,7 @@ Future<T> given<T>(String description, FutureOr<T> Function() body) async {
   return await body();
 }
 
-Future<T> when<T>(String description, FutureOr<T> Function() body) async {
+FutureOr<T> when<T>(String description, FutureOr<T> Function() body) async {
   final whens = Zone.current[whenKey] as List<String>?;
 
   if (whens == null) throw Exception('Use gwt method');
@@ -25,7 +25,7 @@ Future<T> when<T>(String description, FutureOr<T> Function() body) async {
   return await body();
 }
 
-Future<void> Function() whenThrows(
+FutureOr<void> Function() whenThrows(
     String description, dynamic Function() body) {
   final whens = Zone.current[whenKey] as List<String>?;
 
@@ -42,7 +42,7 @@ Future<void> Function() whenThrows(
   };
 }
 
-Future<T> then<T>(String description, FutureOr<T> Function() body) async {
+FutureOr<T> then<T>(String description, FutureOr<T> Function() body) async {
   final thens = Zone.current[thenKey] as List<String>?;
 
   if (thens == null) throw Exception('Use gwt method');
@@ -52,7 +52,7 @@ Future<T> then<T>(String description, FutureOr<T> Function() body) async {
   return await body();
 }
 
-Future<T> and<T>(String description, FutureOr<T> Function() body) async {
+FutureOr<T> and<T>(String description, FutureOr<T> Function() body) async {
   final state = Zone.current[stateKey] as State?;
 
   if (state == null) {
@@ -73,7 +73,7 @@ Future<T> and<T>(String description, FutureOr<T> Function() body) async {
   }
 }
 
-Future<void> Function() andThrows(
+FutureOr<void> Function() andThrows(
   String description,
   dynamic Function() body,
 ) {

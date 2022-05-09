@@ -31,7 +31,7 @@ void main() {
           () => Future.delayed(const Duration(milliseconds: 500), (() {
                 a = 1;
               })));
-      given('Second', () => a = 2);
+      await given('Second', () => a = 2);
 
       expect(a, 2);
       List<String> givens = Zone.current[givenKey];
@@ -126,7 +126,7 @@ void main() {
       var a = 0;
       var b = 0;
 
-      given('First given', () => a = 1);
+      await given('First given', () => a = 1);
       and('First and', () => b = 1);
       expect(a, 1);
       expect(b, 1);
@@ -153,7 +153,7 @@ void main() {
       var a = 0;
       var b = 0;
 
-      given('First given', () => a = 1);
+      await given('First given', () => a = 1);
       await and('First and',
           () => Future.delayed(const Duration(milliseconds: 100), () => b = 1));
       expect(a, 1);
