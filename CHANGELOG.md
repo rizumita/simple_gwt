@@ -1,3 +1,7 @@
+## 0.0.10
+
+* Change Future to FutureOr
+
 ## 0.0.9
 
 * Return value from given/when/then
