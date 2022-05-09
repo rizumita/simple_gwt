@@ -5,27 +5,27 @@ import 'dart:async';
 import 'package:simple_gwt/src/keys.dart';
 import 'package:simple_gwt/src/state.dart';
 
-FutureOr<void> given(String description, dynamic Function() body) async {
+Future<T> given<T>(String description, FutureOr<T> Function() body) async {
   final givens = Zone.current[givenKey] as List<String>?;
 
   if (givens == null) throw Exception('Use gwt method');
 
   (Zone.current[stateKey] as State).key = givenKey;
   givens.add(description);
-  await body();
+  return await body();
 }
 
-FutureOr<void> when(String description, dynamic Function() body) async {
+Future<T> when<T>(String description, FutureOr<T> Function() body) async {
   final whens = Zone.current[whenKey] as List<String>?;
 
   if (whens == null) throw Exception('Use gwt method');
 
   (Zone.current[stateKey] as State).key = whenKey;
   whens.add(description);
-  await body();
+  return await body();
 }
 
-FutureOr<void> Function() whenThrows(
+Future<void> Function() whenThrows(
     String description, dynamic Function() body) {
   final whens = Zone.current[whenKey] as List<String>?;
 
@@ -42,17 +42,17 @@ FutureOr<void> Function() whenThrows(
   };
 }
 
-FutureOr<void> then(String description, dynamic Function() body) async {
+Future<T> then<T>(String description, FutureOr<T> Function() body) async {
   final thens = Zone.current[thenKey] as List<String>?;
 
   if (thens == null) throw Exception('Use gwt method');
 
   (Zone.current[stateKey] as State).key = thenKey;
   thens.add(description);
-  await body();
+  return await body();
 }
 
-FutureOr<void> and(String description, dynamic Function() body) async {
+Future<T> and<T>(String description, FutureOr<T> Function() body) async {
   final state = Zone.current[stateKey] as State?;
 
   if (state == null) {
@@ -61,20 +61,19 @@ FutureOr<void> and(String description, dynamic Function() body) async {
 
   switch (state.key) {
     case givenKey:
-      await given(description, body);
-      break;
+      return await given(description, body);
     case whenKey:
-      await when(description, body);
-      break;
+      return await when(description, body);
     case thenKey:
-      await then(description, body);
-      break;
+      return await then(description, body);
     case null:
       throw Exception('Use and method after given, when or then');
+    default:
+      throw UnimplementedError();
   }
 }
 
-FutureOr<void> Function() andThrows(
+Future<void> Function() andThrows(
   String description,
   dynamic Function() body,
 ) {

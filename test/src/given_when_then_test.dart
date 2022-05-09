@@ -43,15 +43,14 @@ void main() {
     test('Throws an exception when not using gwt method',
         () => expect(() => when('Exception', () {}), throwsException));
 
-    test('Executes body and store description', gwt(() {
+    test('Executes body and store description', gwt(() async {
       var a = 0;
-      var b = 0;
 
       when('First', () => a = 1);
-      when('Second', () => b = 1);
+      final b = await when('Second', () => a + 1);
 
       expect(a, 1);
-      expect(b, 1);
+      expect(b, 2);
       List<String> whens = Zone.current[whenKey];
       expect(whens, ['First', 'Second']);
     }));
@@ -60,10 +59,9 @@ void main() {
       var a = 0;
 
       await when(
-          'First',
-          () => Future.delayed(const Duration(milliseconds: 500), (() {
-                a = 1;
-              })));
+        'First',
+        () => Future.delayed(const Duration(milliseconds: 500), () => a = 1),
+      );
       when('Second', () => a = 2);
 
       expect(a, 2);
@@ -124,7 +122,7 @@ void main() {
     test('Throws an exception when not using gwt method',
         gwt(() => expect(() => and('Exception', () {}), throwsException)));
 
-    test('Executes body and store description', gwt(() {
+    test('Executes body and store description', gwt(() async {
       var a = 0;
       var b = 0;
 
@@ -134,9 +132,9 @@ void main() {
       expect(b, 1);
 
       when('First when', () => a = 2);
-      and('Second and', () => b = 2);
+      final c = await and('Second and', () => a);
       expect(a, 2);
-      expect(b, 2);
+      expect(c, 2);
 
       then('First then', () => a = 3);
       and('Third and', () => b = 3);
