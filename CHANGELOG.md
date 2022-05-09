@@ -1,3 +1,7 @@
+## 0.0.9
+
+* Return value from given/when/then
+
 ## 0.0.8
 
 * Throw exception when not using closure that ‘whenThrows' returns
