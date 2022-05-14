@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:simple_gwt/src/keys.dart';
 import 'package:simple_gwt/src/state.dart';
+import 'package:test/test.dart';
 
 FutureOr<T> given<T>(String description, FutureOr<T> Function() body) {
   final givens = Zone.current[givenKey] as List<String>?;
@@ -65,6 +66,29 @@ FutureOr<T> then<T>(String description, FutureOr<T> Function() body) {
   } else {
     return result;
   }
+}
+
+void thenExpect(
+  String description,
+  actual,
+  matcher, {
+  String? reason,
+  skip,
+}) {
+  then(description, () => expect(actual, matcher, reason: reason, skip: skip));
+}
+
+Future<void> thenExpectLater(
+  String description,
+  dynamic actual,
+  dynamic matcher, {
+  String? reason,
+  dynamic skip, // true or a String
+}) async {
+  return await then(
+    description,
+    () async => await expectLater(actual, matcher, reason: reason, skip: skip),
+  );
 }
 
 FutureOr<T> and<T>(String description, FutureOr<T> Function() body) {
