@@ -27,6 +27,7 @@ void main() {
     and('set b', () => b = 'b');
     then('a is a', () => expect(a, 'a'));
     and('b is b', () => expect(b, 'b'));
+    thenExpect('a is a', a, 'a')
   }));
 }
 ```

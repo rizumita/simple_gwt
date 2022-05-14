@@ -1,3 +1,7 @@
+## 0.0.12
+
+* thenExpect and thenExpectLater
+
 ## 0.0.11
 
 * Remove whenThrows

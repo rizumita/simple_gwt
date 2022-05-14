@@ -1,6 +1,6 @@
 name: simple_gwt
 description: SimpleGWT package provides 'Given When Then' style test functions.
-version: 0.0.11
+version: 0.0.12
 homepage: https://github.com/rizumita/simple_gwt
 
 environment:
