@@ -1,3 +1,8 @@
+## 0.0.11
+
+* Remove whenThrows
+* Support throw by when
+
 ## 0.0.10
 
 * Change Future to FutureOr
