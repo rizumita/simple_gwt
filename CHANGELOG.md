@@ -1,3 +1,7 @@
+## 0.0.13
+
+* andExpect and andExpectLater
+
 ## 0.0.12
 
 * thenExpect and thenExpectLater
