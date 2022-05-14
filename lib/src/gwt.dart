@@ -31,43 +31,40 @@ dynamic Function() gwt(dynamic Function() body) {
 
   return () async {
     await runZoned(() async {
-      await body();
+      try {
+        await body();
+      } catch (_) {
+        var descriptions = <String>[];
+        for (final entry in givens.asMap().entries) {
+          final description =
+              entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
+          descriptions.add(
+              entry.key == 0 ? 'Given $description' : '      ' + description);
+        }
+        for (var entry in whens.asMap().entries) {
+          final description =
+              entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
+          descriptions.add(
+              entry.key == 0 ? 'When $description' : '     ' + description);
+        }
+        for (var entry in thens.asMap().entries) {
+          final description =
+              entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
+          descriptions.add(
+              entry.key == 0 ? 'Then $description' : '     ' + description);
+        }
+        for (var description in descriptions) {
+          print(description);
+        }
+        rethrow;
+      }
 
-      if (state.whenThrowsCount == 1) {
-        throw Exception('Unused whenThrows object remains.');
-      } else if (state.whenThrowsCount >= 2) {
-        throw Exception(
-            'Unused ${state.whenThrowsCount} whenThrows objects remains.');
+      if (state.throwCount == 1) {
+        throw Exception('Unchecked error remains.');
+      } else if (state.throwCount >= 2) {
+        throw Exception('Unchecked ${state.throwCount} errors remain.');
       }
     }, zoneValues: zoneValues);
-
-    var descriptions = <String>[];
-
-    try {
-      for (final entry in givens.asMap().entries) {
-        final description =
-            entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
-        descriptions.add(
-            entry.key == 0 ? 'Given $description' : '      ' + description);
-      }
-      for (var entry in whens.asMap().entries) {
-        final description =
-            entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
-        descriptions
-            .add(entry.key == 0 ? 'When $description' : '     ' + description);
-      }
-      for (var entry in thens.asMap().entries) {
-        final description =
-            entry.value.isEmpty ? '#${entry.key + 1}' : entry.value;
-        descriptions
-            .add(entry.key == 0 ? 'Then $description' : '     ' + description);
-      }
-    } catch (_) {
-      for (var description in descriptions) {
-        print(description);
-      }
-      rethrow;
-    }
   };
 }
 

@@ -68,21 +68,14 @@ void main() {
       List<String> whens = Zone.current[whenKey];
       expect(whens, ['First', 'Second']);
     }));
-  });
 
-  group('whenThrows', () {
-    test('Returns function throws an exception and store description', gwt(() {
-      final wt = whenThrows('First', () => throw Exception('First'));
-      expect(wt, throwsException);
-      List<String> whens = Zone.current[whenKey];
-      expect(whens, ['First']);
+    test('Executes body with throw error', gwt(() async {
+      final e1 = when('Exception1', () => throw Exception());
+      await expectLater(e1, throwsException);
+
+      final e2 = when('Exception2', () async => throw Exception());
+      await expectLater(e2, throwsException);
     }));
-
-    test('Throws unused whenThrows object remains exception', () {
-      expect(gwt(() {
-        whenThrows('First', () => throw Exception('First'));
-      }), throwsException);
-    });
   });
 
   group('then', () {
@@ -178,20 +171,5 @@ void main() {
       List<String> thens = Zone.current[thenKey];
       expect(thens, ['First then', 'Third and']);
     }));
-  });
-
-  group('andThrows', () {
-    test(
-      'Returns function throws exception and stores description after when',
-      gwt(() {
-        var a = 0;
-
-        when('First', () => a = 1);
-        final at = andThrows('Second', () => throw Exception('Second'));
-
-        expect(a, 1);
-        expect(at, throwsException);
-      }),
-    );
   });
 }

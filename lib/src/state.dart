@@ -1,4 +1,4 @@
 class State {
   String? key;
-  int whenThrowsCount = 0;
+  int throwCount = 0;
 }
