@@ -111,3 +111,50 @@ FutureOr<T> and<T>(String description, FutureOr<T> Function() body) {
       throw UnimplementedError();
   }
 }
+
+void andExpect(
+  String description,
+  actual,
+  matcher, {
+  String? reason,
+  skip,
+}) {
+  final state = Zone.current[stateKey] as State?;
+
+  switch (state?.key) {
+    case thenKey:
+      thenExpect(
+        description,
+        actual,
+        matcher,
+        reason: reason,
+        skip: skip,
+      );
+      return;
+    default:
+      throw Exception('Use after kind of then');
+  }
+}
+
+Future<void> andExpectLater(
+  String description,
+  dynamic actual,
+  dynamic matcher, {
+  String? reason,
+  dynamic skip, // true or a String
+}) {
+  final state = Zone.current[stateKey] as State?;
+
+  switch (state?.key) {
+    case thenKey:
+      return thenExpectLater(
+        description,
+        actual,
+        matcher,
+        reason: reason,
+        skip: skip,
+      );
+    default:
+      throw Exception('Use after kind of then');
+  }
+}
