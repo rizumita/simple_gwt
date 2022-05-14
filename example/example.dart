@@ -39,7 +39,7 @@ void main() {
   }));
 
   testWidgets(
-    "WidgetTest",
+    'WidgetTest',
     gwt_((tester) async {
       var result = '';
       given(
