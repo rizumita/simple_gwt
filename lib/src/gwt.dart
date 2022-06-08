@@ -2,8 +2,12 @@
 
 import 'dart:async';
 
+import 'package:flutter_test/flutter_test.dart' as ft;
+import 'package:meta/meta.dart' show isTest;
 import 'package:simple_gwt/src/keys.dart';
 import 'package:simple_gwt/src/state.dart';
+
+export 'package:flutter_test/flutter_test.dart' hide test, testWidgets;
 
 /// Prepares unit testing environment for [given]/[when]/[then] methods
 ///
@@ -124,4 +128,70 @@ Future Function(T) gwt_<T>(Future Function(T) body) {
       rethrow;
     }
   };
+}
+
+/// Test with preparing unit testing environment for [given]/[when]/[then] methods
+///
+/// An exception will be thrown if you don't wrap a test body by this.
+///
+/// Example:
+/// ```dart
+/// test(() {
+///   given(...);
+///   when(...);
+///   then(...);
+/// });
+/// ```
+@isTest
+void test(
+  dynamic Function() body, {
+  String? testOn,
+  ft.Timeout? timeout,
+  skip,
+  tags,
+  Map<String, dynamic>? onPlatform,
+  int? retry,
+}) {
+  ft.test(
+    '',
+    gwt(body),
+    testOn: testOn,
+    timeout: timeout,
+    skip: skip,
+    tags: tags,
+    onPlatform: onPlatform,
+    retry: retry,
+  );
+}
+
+/// Test with preparing unit testing environment for [given]/[when]/[then] methods
+///
+/// An exception will be thrown if you don't wrap a test body by this.
+///
+/// Example:
+/// ```dart
+/// testWidgets((tester) async {
+///   given(...);
+///   when(...);
+///   then(...);
+/// });
+/// ```
+@isTest
+void testWidgets(
+  ft.WidgetTesterCallback callback, {
+  bool? skip,
+  ft.Timeout? timeout,
+  bool semanticsEnabled = true,
+  ft.TestVariant<Object?> variant = const ft.DefaultTestVariant(),
+  dynamic tags,
+}) {
+  ft.testWidgets(
+    '',
+    gwt_(callback),
+    skip: skip,
+    timeout: timeout,
+    semanticsEnabled: semanticsEnabled,
+    variant: variant,
+    tags: tags,
+  );
 }

@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart' as ft;
 import 'package:simple_gwt/src/given_when_then.dart';
 import 'package:simple_gwt/src/gwt.dart';
 import 'package:simple_gwt/src/keys.dart';
 
 void main() {
   group('given', () {
-    test('Throws an exception when not using gwt method',
-        () => expect(() => given('Exception', () {}), throwsException));
+    ft.test('Throws an exception when not using gwt method',
+        () => ft.expect(() => given('Exception', () {}), throwsException));
 
-    test('Executes body and store description', gwt(() {
+    ft.test('Executes body and store description', gwt(() {
       var a = 0;
       var b = 0;
 
@@ -23,7 +23,7 @@ void main() {
       expect(givens, ['First', 'Second']);
     }));
 
-    test('Executes async body', gwt(() async {
+    ft.test('Executes async body', gwt(() async {
       var a = 0;
 
       await given(
@@ -40,10 +40,10 @@ void main() {
   });
 
   group('when', () {
-    test('Throws an exception when not using gwt method',
+    ft.test('Throws an exception when not using gwt method',
         () => expect(() => when('Exception', () {}), throwsException));
 
-    test('Executes body and store description', gwt(() async {
+    ft.test('Executes body and store description', gwt(() async {
       var a = 0;
 
       when('First', () => a = 1);
@@ -55,7 +55,7 @@ void main() {
       expect(whens, ['First', 'Second']);
     }));
 
-    test('Executes async body', gwt(() async {
+    ft.test('Executes async body', gwt(() async {
       var a = 0;
 
       await when(
@@ -69,7 +69,7 @@ void main() {
       expect(whens, ['First', 'Second']);
     }));
 
-    test('Executes body with throw error', gwt(() async {
+    ft.test('Executes body with throw error', gwt(() async {
       final e1 = when('Exception1', () => throw Exception());
       await expectLater(e1, throwsException);
 
@@ -79,10 +79,10 @@ void main() {
   });
 
   group('then', () {
-    test('Throws an exception when not using gwt method',
+    ft.test('Throws an exception when not using gwt method',
         () => expect(() => then('Exception', () {}), throwsException));
 
-    test('Executes body and store description', gwt(() {
+    ft.test('Executes body and store description', gwt(() {
       var a = 0;
       var b = 0;
 
@@ -95,7 +95,7 @@ void main() {
       expect(thens, ['First', 'Second']);
     }));
 
-    test('Executes async body', gwt(() async {
+    ft.test('Executes async body', gwt(() async {
       var a = 0;
 
       await then(
@@ -112,10 +112,10 @@ void main() {
   });
 
   group('and', () {
-    test('Throws an exception when not using gwt method',
+    ft.test('Throws an exception when not using gwt method',
         gwt(() => expect(() => and('Exception', () {}), throwsException)));
 
-    test('Executes body and store description', gwt(() async {
+    ft.test('Executes body and store description', gwt(() async {
       var a = 0;
       var b = 0;
 
@@ -142,7 +142,7 @@ void main() {
       expect(thens, ['First then', 'Third and']);
     }));
 
-    test('Executes async body', gwt(() async {
+    ft.test('Executes async body', gwt(() async {
       var a = 0;
       var b = 0;
 

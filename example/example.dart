@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:simple_gwt/simple_gwt.dart';
 
 void main() {
@@ -9,16 +8,16 @@ void main() {
   aIsNull() => a = null;
   bIsNull() => b = null;
 
-  test('Test1', gwt(() {
+  test(() {
     given('', aIsNull);
     and('', bIsNull);
     when('set a', () => a = 'a');
     and('set b', () => b = 'b');
-    then('a is a', () => expect(a, 'a'));
-    and('b is b', () => expect(b, 'b'));
-  }));
+    thenExpect('a is a', a, 'a');
+    andExpect('b is b', b, 'b');
+  });
 
-  test('Test2', gwt(() async {
+  test(() async {
     given('', aIsNull);
     and('', bIsNull);
 
@@ -36,11 +35,10 @@ void main() {
 
     expect(a, 'delayed_a');
     expect(b, 'delayed_b');
-  }));
+  });
 
   testWidgets(
-    'WidgetTest',
-    gwt_((tester) async {
+    (tester) async {
       var result = '';
       given(
           'Show TextButton',
@@ -50,6 +48,6 @@ void main() {
                   child: const Text('test')))));
       when('Tap the button', () => tester.tap(find.byType(TextButton)));
       then('result is \'test\'', () => expect(result, 'test'));
-    }),
+    },
   );
 }
