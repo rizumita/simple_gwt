@@ -1,3 +1,7 @@
+## 0.0.14
+
+* Wrapped test and testWidgets functions
+
 ## 0.0.13
 
 * andExpect and andExpectLater
